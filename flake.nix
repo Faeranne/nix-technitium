@@ -8,10 +8,6 @@
   outputs = inputs@{ self, flake-parts, nixpkgs, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        # To import a flake module
-        # 1. Add foo to inputs
-        # 2. Add foo as a parameter to the outputs function
-        # 3. Add here: foo.flakeModule
 
       ];
       systems = [ "x86_64-linux" "aarch64-linux" ];
@@ -35,11 +31,10 @@
         };
       };
       flake = {
-        nixosModules.technitium = let
-          lib = nixpkgs.lib;
+        nixosModules.technitium = {config,lib,pkgs, ...}: let
           inherit (lib) types mkEnableOption mkOption;
-          inherit (self.packages.${nixpkgs.stdenv.hostPlatform.system}) technitium dotnet-sdk_7;
-          config = nixpkgs.config;
+          technitium = self.packages.${pkgs.system}.technitium;
+          dotnet = pkgs.dotnetCorePackages.sdk_7_0;
           cfg = config.services.technitium;
         in {
           options = {
@@ -55,9 +50,16 @@
                   The Technitium package to use with the service.
                 '';
               };
+              dataDir = mkOption {
+                type = types.str;
+                default = "/etc/dns";
+                description = ''
+                  The data storage directory to use with the service.
+                '';
+              };
               dotnetPackage = mkOption {
                 type = types.package;
-                default = dotnet-sdk_7;
+                default = dotnet;
                 description = ''
                   The Dotnet package to use with the service.
                 '';
@@ -82,7 +84,7 @@
                 User = "technitium";
                 Group = "technitium";
                 Restart = "always";
-                ExecStart = "${cfg.dotnetPackage} \"${cfg.package}/DnsServerApp.dll\" \"${cfg.dataDir}\"";
+                ExecStart = "${cfg.dotnetPackage}/dotnet \"${cfg.package}/DnsServerApp.dll\" \"${cfg.dataDir}\"";
                 StateDirectory = "technitium";
                 StateDirectoryMode = "0750";
               };
