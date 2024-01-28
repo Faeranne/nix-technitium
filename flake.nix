@@ -74,14 +74,6 @@
             };
 
             users.groups.technitium = {};
-            security.wrappers = {
-              technitium = {
-                owner = "root";
-                group = "root";
-                capabilities = "cap_net_raw,cap_net_admin,cap_dac_override+eip"; #This needs to be trimmed down to the needed elements.
-                source = "${cfg.dotnetPackage}/dotnet"; #Is there a way to do this on DnsServerApp.dll?
-              };
-            };
 
             systemd.services.technitium = {
               description = "Technitium DNS Server";
@@ -93,6 +85,8 @@
                 Group = "technitium";
                 Restart = "always";
                 ExecStart = "${cfg.dotnetPackage}/dotnet \"${cfg.package}/DnsServerApp.dll\" \"${cfg.dataDir}\"";
+                CapabilityBoundingSet="CAP_NET_BIND_SERVICE";
+                AmbientCapabilities="CAP_NET_BIND_SERVICE";
                 StateDirectory = "technitium";
                 StateDirectoryMode = "0750";
               };
