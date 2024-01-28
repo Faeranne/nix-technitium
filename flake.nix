@@ -74,6 +74,14 @@
             };
 
             users.groups.technitium = {};
+            security.wrappers = {
+              technitium = {
+                owner = "root";
+                group = "root";
+                capabilities = "cap_net_raw,cap_net_admin,cap_dac_override+eip"; #This needs to be trimmed down to the needed elements.
+                source = "${cfg.dotnetPackage}/dotnet"; #Is there a way to do this on DnsServerApp.dll?
+              };
+            };
 
             systemd.services.technitium = {
               description = "Technitium DNS Server";
