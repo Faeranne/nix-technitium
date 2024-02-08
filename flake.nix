@@ -21,7 +21,7 @@
               stripRoot = false;
               sha256 = "sha256-C9+7i2e5vlB1W21V7Hv8N032c+wiMhIZ2CtscwIRJ5s=";
             };
-            buildInputs = with pkgs; [ dotnet-sdk_7 ];
+            buildInputs = with pkgs; [ dotnet-sdk_8 ];
             installPhase = ''
               mkdir -p $out;
               mv * $out;
