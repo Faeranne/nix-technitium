@@ -17,7 +17,7 @@
             name = "technitium";
             version = "11.5.3";
             src = pkgs.fetchzip {
-              url = "https://download.technitium.com/dns/archive/11.5.3/DnsServerPortable.tar.gz";
+              url = "https://download.technitium.com/dns/archive/12.0/DnsServerPortable.tar.gz";
               stripRoot = false;
               sha256 = "sha256-he3WXIbnMvACJgLVr2/9rE41r8AUzHDG7B4foRQPmpM=";
             };
