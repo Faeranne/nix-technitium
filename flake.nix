@@ -15,11 +15,11 @@
         packages = rec {
           technitium = pkgs.stdenv.mkDerivation rec {
             name = "technitium";
-            version = "12.0";
+            version = "12.0.1";
             src = pkgs.fetchzip {
-              url = "https://download.technitium.com/dns/archive/12.0/DnsServerPortable.tar.gz";
+              url = "https://download.technitium.com/dns/archive/12.0.1/DnsServerPortable.tar.gz";
               stripRoot = false;
-              sha256 = "sha256-C9+7i2e5vlB1W21V7Hv8N032c+wiMhIZ2CtscwIRJ5s=";
+              sha256 = "sha256-Cvz4O+FBQa9N33q50HDIawqfNFH9Ads4W9pZj15awpQ=";
             };
             buildInputs = with pkgs; [ dotnetCorePackages.sdk_8_0 ];
             installPhase = ''
