@@ -15,13 +15,13 @@
         packages = rec {
           technitium = pkgs.stdenv.mkDerivation rec {
             name = "technitium";
-            version = "11.5.3";
+            version = "12.0";
             src = pkgs.fetchzip {
               url = "https://download.technitium.com/dns/archive/12.0/DnsServerPortable.tar.gz";
               stripRoot = false;
               sha256 = "sha256-C9+7i2e5vlB1W21V7Hv8N032c+wiMhIZ2CtscwIRJ5s=";
             };
-            buildInputs = with pkgs; [ dotnet-sdk_8 ];
+            buildInputs = with pkgs; [ dotnetCorePackages.sdk_8_0 ];
             installPhase = ''
               mkdir -p $out;
               mv * $out;
@@ -34,7 +34,7 @@
         nixosModules.technitium = {config,lib,pkgs, ...}: let
           inherit (lib) types mkEnableOption mkOption;
           technitium = self.packages.${pkgs.system}.technitium;
-          dotnet = pkgs.dotnetCorePackages.sdk_7_0;
+          dotnet = pkgs.dotnetCorePackages.sdk_8_0;
           cfg = config.services.technitium;
         in {
           options = {
